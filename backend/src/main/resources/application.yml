@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: flexislot-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/flexislot?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        type:
+          # Force enums to be treated as VARCHAR (Types.VARCHAR = 12) to match MariaDB/MySQL schemas using VARCHAR.
+          preferred_enum_jdbc_type: 12
+    open-in-view: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# JWT
+jwt:
+  secret: FlexiSlotJwtSecretKeyForSigningMustBeAtLeast256BitsLongForHS256Algorithm
+  expiration-ms: 86400000
+
+# Swagger / OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.flexislot: DEBUG
+    org.springframework.security: DEBUG
+
+# Paystack Configuration
+paystack:
+  secret-key: ${PAYSTACK_SECRET_KEY:sk_test_placeholder}
+  public-key: ${PAYSTACK_PUBLIC_KEY:pk_test_placeholder}

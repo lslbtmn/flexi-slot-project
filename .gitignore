@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+dist/
+build/
+
+# Java/Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+boot_error*.txt
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+.DS_Store
