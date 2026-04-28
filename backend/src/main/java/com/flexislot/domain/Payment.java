@@ -28,7 +28,7 @@ public class Payment extends BaseEntity {
 
     @Column(nullable = false, length = 3)
     @Builder.Default
-    private String currency = "USD";
+    private String currency = "GHS";
 
     @Column(nullable = false, length = 100)
     private String provider;

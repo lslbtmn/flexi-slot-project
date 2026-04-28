@@ -246,7 +246,7 @@ export default function CustomerDashboard() {
                   <div className="flex flex-col gap-2 min-w-[140px] justify-between border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6">
                     <div>
                       <p className="text-sm text-slate-500 font-medium">Total Amount</p>
-                      <h4 className="text-2xl font-black text-brand-600 mt-0.5">${b.price}</h4>
+                      <h4 className="text-2xl font-black text-brand-600 mt-0.5">GH₵{b.price}</h4>
                     </div>
                     
                     <div className="space-y-2 mt-4 sm:mt-0">

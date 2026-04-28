@@ -146,7 +146,7 @@ curl -s -X PUT http://localhost:8080/api/bookings/<bookingId>/cancel \
 # Initiate payment
 curl -s -X POST http://localhost:8080/api/payments/initiate \
   -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
-  -d '{"bookingId":"<bookingId>","amount":25.00,"currency":"USD","provider":"mock"}'
+  -d '{"bookingId":"<bookingId>","amount":25.00,"currency":"GHS","provider":"mock"}'
 
 # Mock success
 curl -s -X PUT http://localhost:8080/api/payments/<paymentId>/success -H "Authorization: Bearer $TOKEN"

@@ -48,7 +48,7 @@ public class PaymentService {
         Payment payment = Payment.builder()
                 .bookingId(request.getBookingId())
                 .amount(request.getAmount())
-                .currency(request.getCurrency() != null ? request.getCurrency() : "USD")
+                .currency(request.getCurrency() != null ? request.getCurrency() : "GHS")
                 .provider("PAYSTACK")
                 .status(PaymentStatusEnum.INITIATED)
                 .build();

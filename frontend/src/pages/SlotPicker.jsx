@@ -145,11 +145,11 @@ export default function SlotPicker() {
                           isDiscounted ? 'bg-green-100 text-green-800' :
                           'bg-slate-200 text-slate-600 group-hover:bg-brand-100 group-hover:text-brand-700'
                         }`}>
-                          ${s.price.toFixed(2)}
+                          GH₵{s.price.toFixed(2)}
                         </span>
                         {(isHighDemand || isDiscounted) && (
                           <span className="text-[10px] text-slate-400 line-through font-semibold">
-                            ${service.basePrice.toFixed(2)}
+                            GH₵{service.basePrice.toFixed(2)}
                           </span>
                         )}
                       </div>

@@ -114,6 +114,20 @@ export default function BusinessDashboard() {
     }
   }
 
+  const handleDeleteService = async (serviceId) => {
+    if (!window.confirm("Are you sure you want to delete this service? All associated slots will also be deleted.")) return;
+    setError('');
+    try {
+      await servicesApi.delete(serviceId);
+      setServices((prev) => prev.filter(s => s.id !== serviceId));
+      if (formSlot.serviceId === serviceId) setFormSlot(prev => ({...prev, serviceId: ''}));
+      if (formBulkSlot.serviceId === serviceId) setFormBulkSlot(prev => ({...prev, serviceId: ''}));
+      setSlots([]); 
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to delete service');
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -242,7 +256,7 @@ export default function BusinessDashboard() {
                   <input value={formService.serviceName} onChange={(e) => setFormService((s) => ({ ...s, serviceName: e.target.value }))} required className="w-full px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none" placeholder="E.g. Men's Haircut" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-500 uppercase">Base Price ($)</label>
+                  <label className="text-xs font-bold text-slate-500 uppercase">Base Price (GHS)</label>
                   <input type="number" step="0.01" value={formService.basePrice} onChange={(e) => setFormService((s) => ({ ...s, basePrice: e.target.value }))} required className="w-full px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none" placeholder="25.00" />
                 </div>
                 <div className="space-y-1.5">
@@ -272,13 +286,18 @@ export default function BusinessDashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {services.map((s) => (
                     <div key={s.id} className="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-brand-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
-                      <h3 className="font-bold text-lg text-slate-800 relative z-10 flex items-center gap-2">
-                        {s.serviceName}
-                        {s.dynamicPricingEnabled && <span title="Dynamic Pricing Enabled" className="text-xs px-2 py-0.5 bg-brand-100 text-brand-700 font-bold rounded-full">⚡ Auto-Pricing</span>}
-                      </h3>
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-brand-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                      <div className="relative z-10 flex justify-between items-start">
+                        <h3 className="font-bold text-lg text-slate-800 flex flex-col items-start gap-1">
+                          {s.serviceName}
+                          {s.dynamicPricingEnabled && <span title="Dynamic Pricing Enabled" className="text-[10px] px-2 py-0.5 bg-brand-100 text-brand-700 font-bold rounded-full uppercase tracking-wide">⚡ Auto-Pricing</span>}
+                        </h3>
+                        <button onClick={() => handleDeleteService(s.id)} className="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 p-2 rounded-lg transition-colors" title="Delete Service">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                      </div>
                       <div className="flex justify-between items-center mt-4 relative z-10">
-                        <span className="font-extrabold text-brand-600 text-xl">${s.basePrice}</span>
+                        <span className="font-extrabold text-brand-600 text-xl">GH₵{s.basePrice}</span>
                         <span className="text-sm font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{s.durationMinutes} min</span>
                       </div>
                     </div>
@@ -386,7 +405,7 @@ export default function BusinessDashboard() {
                         <tr key={s.id} className="hover:bg-slate-50 transition-colors">
                           <td className="py-4 px-4 font-medium text-slate-800">{s.slotDate}</td>
                           <td className="py-4 px-4 text-slate-600">{s.startTime.substring(0,5)} &rarr; {s.endTime.substring(0,5)}</td>
-                          <td className="py-4 px-4 font-bold text-brand-600">${s.price}</td>
+                          <td className="py-4 px-4 font-bold text-brand-600">GH₵{s.price}</td>
                           <td className="py-4 px-4">
                             <span className={`px-3 py-1 text-xs font-bold rounded-full ${
                               s.status === 'AVAILABLE' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'

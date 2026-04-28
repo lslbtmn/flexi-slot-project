@@ -25,7 +25,7 @@ public class PaymentInitiateRequest {
     private BigDecimal amount;
 
     @Builder.Default
-    private String currency = "USD";
+    private String currency = "GHS";
 
     @NotBlank(message = "Provider is required")
     private String provider;

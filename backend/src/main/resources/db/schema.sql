@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS payments (
     id VARCHAR(26) NOT NULL PRIMARY KEY,
     booking_id VARCHAR(26) NOT NULL,
     amount DECIMAL(12,2) NOT NULL,
-    currency VARCHAR(3) NOT NULL DEFAULT 'USD',
+    currency VARCHAR(3) NOT NULL DEFAULT 'GHS',
     provider VARCHAR(100) NOT NULL,
     provider_reference VARCHAR(255),
     status ENUM('initiated','success','failed') NOT NULL,
